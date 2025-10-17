@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CallController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ServerController;
 use App\Http\Controllers\CallCandidateController;
 
 Route::post('login', [AuthController::class, 'login']);
@@ -15,6 +16,14 @@ Route::group([
     Route::post('logout', [AuthController::class, 'logout']);
 
     Route::get('me', [UserController::class, 'me']);
+
+    Route::prefix('server')->group(function () {
+        Route::get('', [ServerController::class, 'index']);
+        Route::post('', [ServerController::class, 'store']);
+        Route::get('{server}', [ServerController::class, 'show']);
+        Route::post('{server}/category', [ServerController::class, 'storeCategory']);
+        Route::post('category/{category}/channel', [ServerController::class, 'storeChannel']);
+    });
 });
 
 Route::post('call', [CallController::class, 'store']);

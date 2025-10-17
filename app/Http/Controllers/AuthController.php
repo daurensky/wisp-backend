@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use Illuminate\Auth\Events\Registered;
 
 class AuthController extends Controller
 {
@@ -43,7 +44,10 @@ class AuthController extends Controller
             $attributes['name'] = $attributes['username'];
         }
 
+        /** @var User $user */
         $user = User::create($attributes);
+
+        event(new Registered($user));
 
         $token = $user->createToken('electron')->plainTextToken;
 

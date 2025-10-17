@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\User\UserResource;
 
 class UserController extends Controller
 {
-    public function me(Request $request)
+    public function me(Request $request): UserResource
     {
-        return $request->user();
+        return new UserResource($request->user());
     }
 }
