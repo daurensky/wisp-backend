@@ -7,6 +7,7 @@ use App\Enums\Server\ChannelTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[ScopedBy(SortScope::class)]
 class ServerChannel extends Model
@@ -14,6 +15,7 @@ class ServerChannel extends Model
     use HasUuids;
 
     protected $fillable = [
+        'server_category_id',
         'type',
         'name',
         'sort'
@@ -29,5 +31,10 @@ class ServerChannel extends Model
             $maxSort = static::where('server_category_id', $model->server_category_id)->max('sort');
             $model->sort = $maxSort ? $maxSort + 1 : 1;
         });
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(ServerCategory::class, 'server_category_id');
     }
 }

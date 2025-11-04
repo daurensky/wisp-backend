@@ -14,58 +14,94 @@
 namespace App\Models{
 /**
  * @property string $id
- * @property array<array-key, mixed> $offer
- * @property array<array-key, mixed>|null $answer
+ * @property string $name
+ * @property string $author_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CallCandidate> $candidates
- * @property-read int|null $candidates_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Call newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Call newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Call query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Call whereAnswer($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Call whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Call whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Call whereOffer($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Call whereUpdatedAt($value)
+ * @property-read \App\Models\User $author
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ServerCategory> $categories
+ * @property-read int|null $categories_count
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read int|null $users_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Server newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Server newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Server query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Server whereAuthorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Server whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Server whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Server whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Server whereUpdatedAt($value)
  */
-	class Call extends \Eloquent {}
+	class Server extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{
 /**
  * @property string $id
- * @property string $call_id
- * @property string $type
- * @property array<array-key, mixed> $candidate_data
+ * @property string $server_id
+ * @property string $name
+ * @property int $sort
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Call|null $activeCall
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CallCandidate newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CallCandidate newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CallCandidate query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CallCandidate whereCallId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CallCandidate whereCandidateData($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CallCandidate whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CallCandidate whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CallCandidate whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CallCandidate whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ServerChannel> $channels
+ * @property-read int|null $channels_count
+ * @property-read \App\Models\Server $server
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerCategory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerCategory newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerCategory query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerCategory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerCategory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerCategory whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerCategory whereServerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerCategory whereSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerCategory whereUpdatedAt($value)
  */
-	class CallCandidate extends \Eloquent {}
+	class ServerCategory extends \Eloquent {}
 }
 
 namespace App\Models{
 /**
- * @property int $id
+ * @property string $id
+ * @property string $server_category_id
+ * @property \App\Enums\Server\ChannelTypeEnum $type
+ * @property string $name
+ * @property int $sort
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\ServerCategory $category
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannel newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannel newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannel query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannel whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannel whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannel whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannel whereServerCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannel whereSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannel whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannel whereUpdatedAt($value)
+ */
+	class ServerChannel extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property string $id
  * @property string $name
  * @property string $email
+ * @property string $username
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Server> $servers
+ * @property-read int|null $servers_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
@@ -80,7 +116,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUsername($value)
  */
-	class User extends \Eloquent {}
+	class User extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 

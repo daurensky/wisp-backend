@@ -21,7 +21,6 @@ return new class extends Migration
                 ->constrained('servers')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->dateTimeTz('joined_at');
             $table->timestamps();
         });
     }

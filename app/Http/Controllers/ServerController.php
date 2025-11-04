@@ -3,14 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Server;
-use App\Models\ServerCategory;
-use App\Events\Server\ServerCreated;
 use App\Http\Resources\Server\ServerResource;
 use App\Http\Requests\Server\ServerStoreRequest;
-use App\Http\Requests\ServerStoreCategoryRequest;
-use App\Http\Resources\Server\ServerChannelResource;
-use App\Http\Resources\Server\ServerCategoryResource;
-use App\Http\Requests\Server\ServerStoreChannelRequest;
+use App\Http\Requests\Server\ServerUpdateRequest;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
@@ -44,8 +39,6 @@ class ServerController extends Controller
                 ->toMediaCollection('avatar');
         }
 
-        ServerCreated::dispatch($server);
-
         return new ServerResource($server);
     }
 
@@ -54,24 +47,16 @@ class ServerController extends Controller
         return new ServerResource($server);
     }
 
-    public function storeCategory(Server $server, ServerStoreCategoryRequest $request): ServerCategoryResource
+    public function update(Server $server, ServerUpdateRequest $request): ServerResource
     {
-        $category = $server->categories()
-            ->create($request->only([
-                'name'
-            ]));
+        $server->update($request->only([
+            'name'
+        ]));
 
-        return new ServerCategoryResource($category);
-    }
+        if ($request->hasFile('avatar')) {
+            $server->updateMedia($request->file('avatar'), 'avatar');
+        }
 
-    public function storeChannel(ServerCategory $category, ServerStoreChannelRequest $request): ServerChannelResource
-    {
-        $channel = $category->channels()
-            ->create($request->only([
-                'name',
-                'type'
-            ]));
-
-        return new ServerChannelResource($channel);
+        return new ServerResource($server);
     }
 }

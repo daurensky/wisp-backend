@@ -1,22 +1,17 @@
 <?php
 
-namespace App\Listeners\Server;
+namespace App\Observers;
 
+use App\Models\Server;
 use App\Models\ServerCategory;
-use App\Events\Server\ServerCreated;
 use App\Enums\Server\ChannelTypeEnum;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class FillStandardServer implements ShouldQueue
+class ServerObserver
 {
-    public function __construct()
-    {
-    }
-
-    public function handle(ServerCreated $event): void
+    public function created(Server $server): void
     {
         /** @var ServerCategory $text */
-        $text = $event->server->categories()->create([
+        $text = $server->categories()->create([
             'name' => 'Текстовые каналы'
         ]);
 
@@ -26,7 +21,7 @@ class FillStandardServer implements ShouldQueue
         ]);
 
         /** @var ServerCategory $voice */
-        $voice = $event->server->categories()->create([
+        $voice = $server->categories()->create([
             'name' => 'Голосовые каналы'
         ]);
 

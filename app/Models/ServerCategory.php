@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[ScopedBy(SortScope::class)]
 class ServerCategory extends Model
@@ -14,6 +15,7 @@ class ServerCategory extends Model
     use HasUuids;
 
     protected $fillable = [
+        'server_id',
         'name',
         'sort'
     ];
@@ -29,5 +31,10 @@ class ServerCategory extends Model
     public function channels(): HasMany
     {
         return $this->hasMany(ServerChannel::class);
+    }
+
+    public function server(): BelongsTo
+    {
+        return $this->belongsTo(Server::class);
     }
 }

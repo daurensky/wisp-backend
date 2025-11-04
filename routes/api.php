@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CallController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ServerController;
-use App\Http\Controllers\CallCandidateController;
+use App\Http\Controllers\ServerChannelController;
+use App\Http\Controllers\ServerCategoryController;
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
@@ -21,13 +21,15 @@ Route::group([
         Route::get('', [ServerController::class, 'index']);
         Route::post('', [ServerController::class, 'store']);
         Route::get('{server}', [ServerController::class, 'show']);
-        Route::post('{server}/category', [ServerController::class, 'storeCategory']);
-        Route::post('category/{category}/channel', [ServerController::class, 'storeChannel']);
+        Route::put('{server}', [ServerController::class, 'update']);
+    });
+
+    Route::prefix('server-category')->group(function () {
+        Route::post('', [ServerCategoryController::class, 'store']);
+    });
+
+    Route::prefix('server-channel')->group(function () {
+        Route::post('', [ServerChannelController::class, 'store']);
+        Route::get('{channel}', [ServerChannelController::class, 'show']);
     });
 });
-
-Route::post('call', [CallController::class, 'store']);
-Route::get('call/{call}', [CallController::class, 'show']);
-Route::post('call/{call}/join', [CallController::class, 'join']);
-
-Route::post('call/{call}/candidate', [CallCandidateController::class, 'store']);
