@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ServerCategory;
-use App\Http\Requests\ServerCategoryStoreRequest;
 use App\Http\Resources\Server\ServerCategoryResource;
+use App\Http\Requests\Server\ServerCategoryStoreRequest;
 
 class ServerCategoryController extends Controller
 {

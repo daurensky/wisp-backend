@@ -11,10 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('calls', function (Blueprint $table) {
+        Schema::create('peers', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->json('offer');
-            $table->json('answer')->nullable();
+            $table->uuidMorphs('peerable');
+            $table->foreignUuid('user_id')
+                ->constrained('users')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->text('sdp');
+            $table->string('type');
             $table->timestamps();
         });
     }
@@ -24,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('calls');
+        Schema::dropIfExists('peers');
     }
 };

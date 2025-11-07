@@ -6,6 +6,7 @@ use Spatie\MediaLibrary\HasMedia;
 use App\Observers\ServerObserver;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Broadcasting\PrivateChannel;
 use App\Http\Resources\Server\ServerResource;
 use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -39,6 +40,13 @@ class Server extends Model implements HasMedia
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'server_user');
+    }
+
+    public function broadcastOn(string $event): array
+    {
+        return [
+            new PrivateChannel('server.'.$this->id)
+        ];
     }
 
     public function broadcastWith(string $event): array

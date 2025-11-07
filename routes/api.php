@@ -31,5 +31,7 @@ Route::group([
     Route::prefix('server-channel')->group(function () {
         Route::post('', [ServerChannelController::class, 'store']);
         Route::get('{channel}', [ServerChannelController::class, 'show']);
+        Route::post('{channel}/connect', [ServerChannelController::class, 'connect']);
+        Route::post('{channel}/disconnect', [ServerChannelController::class, 'disconnect']);
     });
 });

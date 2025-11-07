@@ -5,14 +5,19 @@ namespace App\Models;
 use App\Models\Scopes\SortScope;
 use App\Enums\Server\ChannelTypeEnum;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use App\Http\Resources\Server\ServerChannelResource;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 #[ScopedBy(SortScope::class)]
 class ServerChannel extends Model
 {
     use HasUuids;
+    use BroadcastsEvents;
 
     protected $fillable = [
         'server_category_id',
@@ -25,6 +30,16 @@ class ServerChannel extends Model
         'type' => ChannelTypeEnum::class
     ];
 
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(ServerCategory::class, 'server_category_id');
+    }
+
+    public function peers(): MorphMany
+    {
+        return $this->morphMany(Peer::class, 'peerable');
+    }
+
     protected static function booted(): void
     {
         static::creating(function ($model) {
@@ -33,8 +48,15 @@ class ServerChannel extends Model
         });
     }
 
-    public function category(): BelongsTo
+    public function broadcastOn(string $event): array
     {
-        return $this->belongsTo(ServerCategory::class, 'server_category_id');
+        return [
+            new PrivateChannel('server.'.$this->server_id)
+        ];
+    }
+
+    public function broadcastWith(string $event): array
+    {
+        return ServerChannelResource::make($this)->resolve();
     }
 }
