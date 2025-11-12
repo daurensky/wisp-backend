@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Http\Resources\Server\ServerChannelResource;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 #[ScopedBy(SortScope::class)]
 class ServerChannel extends Model
@@ -35,9 +35,10 @@ class ServerChannel extends Model
         return $this->belongsTo(ServerCategory::class, 'server_category_id');
     }
 
-    public function peers(): MorphMany
+    public function members(): BelongsToMany
     {
-        return $this->morphMany(Peer::class, 'peerable');
+        return $this->belongsToMany(User::class, 'server_channel_member')
+            ->withTimestamps();
     }
 
     protected static function booted(): void
@@ -51,7 +52,7 @@ class ServerChannel extends Model
     public function broadcastOn(string $event): array
     {
         return [
-            new PrivateChannel('server.'.$this->server_id)
+            new PrivateChannel('server.'.$this->category->server_id)
         ];
     }
 

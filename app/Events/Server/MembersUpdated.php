@@ -2,40 +2,41 @@
 
 namespace App\Events\Server;
 
-use App\Models\Peer;
 use App\Models\ServerChannel;
 use Illuminate\Queue\SerializesModels;
-use App\Http\Resources\Peer\PeerResource;
+use App\Http\Resources\User\UserResource;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class PeerConnected implements ShouldBroadcast
+class MembersUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public function __construct(
-        private readonly ServerChannel $channel,
-        private readonly Peer          $peer
+        public string $channelId,
     )
     {
     }
 
     public function broadcastAs(): string
     {
-        return 'peer.connected';
+        return 'channel.members.updated';
     }
 
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('server-channel.'.$this->channel->id),
+            new PrivateChannel('server-channel.'.$this->channelId),
         ];
     }
 
     public function broadcastWith(): array
     {
-        return PeerResource::make($this->peer)->resolve();
+        $channel = ServerChannel::with(['members'])
+            ->find($this->channelId);
+
+        return UserResource::collection($channel->members)->resolve();
     }
 }

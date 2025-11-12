@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('peers', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuidMorphs('peerable');
+        Schema::create('server_channel_member', function (Blueprint $table) {
+            $table->foreignUuid('server_channel_id')
+                ->constrained('server_channels')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->foreignUuid('user_id')
                 ->constrained('users')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->text('sdp');
-            $table->string('type');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('peers');
+        Schema::dropIfExists('server_channel_member');
     }
 };

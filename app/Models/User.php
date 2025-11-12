@@ -42,4 +42,10 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->belongsToMany(Server::class, 'server_user');
     }
+
+    public function channels(): BelongsToMany
+    {
+        return $this->belongsToMany(ServerChannel::class, 'server_channel_member')
+            ->withTimestamps();
+    }
 }

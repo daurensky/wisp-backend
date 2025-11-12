@@ -13,35 +13,6 @@
 
 namespace App\Models{
 /**
- * @property int $id
- * @property string $peerable_type
- * @property int $peerable_id
- * @property string $user_id
- * @property string $connection_id
- * @property string $sdp
- * @property string $type
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $peerable
- * @property-read \App\Models\User $user
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Peer newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Peer newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Peer query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Peer whereConnectionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Peer whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Peer whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Peer wherePeerableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Peer wherePeerableType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Peer whereSdp($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Peer whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Peer whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Peer whereUserId($value)
- */
-	class Peer extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
  * @property string $id
  * @property string $name
  * @property string $author_id
@@ -100,8 +71,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\ServerCategory $category
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Peer> $peers
- * @property-read int|null $peers_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $members
+ * @property-read int|null $members_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannel query()

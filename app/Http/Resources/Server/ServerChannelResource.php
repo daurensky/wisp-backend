@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Server;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ServerChannelResource extends JsonResource
@@ -15,9 +16,10 @@ class ServerChannelResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'   => $this->id,
-            'name' => $this->name,
-            'type' => $this->type,
+            'id'      => $this->id,
+            'name'    => $this->name,
+            'type'    => $this->type,
+            'members' => UserResource::collection($this->members),
         ];
     }
 }
