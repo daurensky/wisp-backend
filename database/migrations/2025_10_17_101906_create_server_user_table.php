@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('server_user', function (Blueprint $table) {
+            // TODO: REMOVE ID
             $table->id();
             $table->foreignUuid('user_id')
                 ->constrained('users')

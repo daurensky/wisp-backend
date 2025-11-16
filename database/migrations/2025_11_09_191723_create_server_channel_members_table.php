@@ -11,7 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('server_channel_member', function (Blueprint $table) {
+        Schema::create('server_channel_members', function (Blueprint $table) {
+            $table->uuid('id')->primary();
             $table->foreignUuid('server_channel_id')
                 ->constrained('server_channels')
                 ->cascadeOnUpdate()
@@ -20,6 +21,7 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
+            $table->boolean('is_screen_sharing')->default(false);
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('server_channel_member');
+        Schema::dropIfExists('server_channel_members');
     }
 };

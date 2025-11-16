@@ -3,7 +3,6 @@
 namespace App\Http\Resources\Server;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ServerChannelResource extends JsonResource
@@ -19,7 +18,7 @@ class ServerChannelResource extends JsonResource
             'id'      => $this->id,
             'name'    => $this->name,
             'type'    => $this->type,
-            'members' => UserResource::collection($this->members),
+            'members' => ServerChannelMemberResource::collection($this->members),
         ];
     }
 }

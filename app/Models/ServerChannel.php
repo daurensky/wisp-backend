@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Http\Resources\Server\ServerChannelResource;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 #[ScopedBy(SortScope::class)]
 class ServerChannel extends Model
@@ -35,10 +35,9 @@ class ServerChannel extends Model
         return $this->belongsTo(ServerCategory::class, 'server_category_id');
     }
 
-    public function members(): BelongsToMany
+    public function members(): HasMany
     {
-        return $this->belongsToMany(User::class, 'server_channel_member')
-            ->withTimestamps();
+        return $this->hasMany(ServerChannelMember::class);
     }
 
     protected static function booted(): void

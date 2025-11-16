@@ -71,7 +71,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\ServerCategory $category
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $members
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ServerChannelMember> $members
  * @property-read int|null $members_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannel newQuery()
@@ -90,6 +90,29 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property string $id
+ * @property string $server_channel_id
+ * @property string $user_id
+ * @property bool $is_screen_sharing
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\ServerChannel|null $channel
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannelMember newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannelMember newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannelMember query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannelMember whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannelMember whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannelMember whereIsScreenSharing($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannelMember whereServerChannelId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannelMember whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServerChannelMember whereUserId($value)
+ */
+	class ServerChannelMember extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property string $id
  * @property string $name
  * @property string $email
  * @property string $username
@@ -98,6 +121,8 @@ namespace App\Models{
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ServerChannel> $channels
+ * @property-read int|null $channels_count
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
